@@ -1,0 +1,30 @@
+# 激活开发配置可选方法
+# 1. idea run 环境变量 spring.profiles.active=dev
+# 2. 添加命令行 --spring.profiles.active=dev
+
+server:
+  port: 9101
+spring:
+  application:
+    name: zyyh-mic
+
+#pagehelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false
+
+#http-pool:
+http-pool:
+  max-total: 200
+  default-max-per-route: 100
+  connect-timeout: 5000
+  connection-request-timeout: 1000
+  socket-timeout: 65000
+  validate-after-inactivity: 2000
+
+mic:
+  msg:
+    schedule-fixed-delay: 10000
+
+metrics:
+  period: 10

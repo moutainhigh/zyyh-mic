@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_ROOT" value="/data/applogs/zyyh_mic/"/>
+    <property name="LOG_FORMAT"
+              value="%d{yyyy-MM-dd HH:mm:ss:SSS,CTT} %-5level [%thread] &lt;%class.%method:%line&gt; - %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS,CTT} %-5level [%thread] &lt;%class.%method:%line&gt; - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--log for SQL-->
+    <appender name="sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/sql.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_FORMAT}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+            <fileNamePattern>${LOG_ROOT}/archived/sql.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!--logs for monitoring and feedback-->
+    <appender name="monitor" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/monitor.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>1000</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+            <fileNamePattern>${LOG_ROOT}/archived/monitor.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!--log for exception-->
+    <appender name="exception" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/exception.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>1000</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+            <fileNamePattern>${LOG_ROOT}/archived/exception.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!--main log-->
+    <appender name="main" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/main.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_FORMAT}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>1000</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+            <fileNamePattern>${LOG_ROOT}/archived/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.jkys.zyyh.mic.dao.mapper" level="debug" additivity="false">
+        <appender-ref ref="sql"/>
+    </logger>
+
+    <logger name="monitorLog" level="info">
+        <appender-ref ref="monitor"/>
+    </logger>
+
+    <logger name="exceptionLog" level="info">
+        <appender-ref ref="exception"/>
+    </logger>
+
+    <logger name="com.jkys.zyyh.mic" level="info">
+        <appender-ref ref="main"/>
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="main"/>
+    </root>
+
+</configuration>
