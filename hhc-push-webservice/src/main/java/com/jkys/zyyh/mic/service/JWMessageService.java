@@ -17,5 +17,6 @@ public interface JWMessageService {
     String HIPMessageServer(@WebParam(name = "action",targetNamespace = "urn:hl7-org:v3")String action , @WebParam(name = "message",targetNamespace = "urn:hl7-org:v3")String message);
 
     @WebMethod
-    String bloodSugarCallBack(@WebParam(name = "action",targetNamespace = "urn:hl7-org:v3")String action , @WebParam(name = "message",targetNamespace = "urn:hl7-org:v3")String message);
+    String test(@WebParam(name = "message") String message);
+
 }
